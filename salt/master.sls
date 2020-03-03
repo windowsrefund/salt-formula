@@ -29,6 +29,7 @@ salt-master:
     - context:
         file_roots: {{ file_roots }}
         formulas: {{ formulas|json }}
+
     {%- endif %}
     - clean: {{ salt_settings.clean_config_d_dir }}
     - exclude_pat: _*

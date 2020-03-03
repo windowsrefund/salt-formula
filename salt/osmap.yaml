@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
+---
 
-{% import_yaml "salt/ospyvermap.yaml" as ospyvermap %}
-{% set ospyver = salt['grains.filter_by'](ospyvermap, grain='os_family') or {} %}
-{% set py_ver_dir = salt['pillar.filter_by'](ospyver, pillar='salt:py_ver', default='py2') %}
+{%- set py_ver_dir = salt['pillar.get']('salt:py_ver', '') %}
 
 {% set osrelease = salt['grains.get']('osrelease') %}
 {% set salt_release = salt['pillar.get']('salt:release', 'latest') %}
@@ -18,20 +17,26 @@
 Fedora:
   pygit2: python2-pygit2
 
+Amazon:
+  pkgrepo_name: saltstack-amzn-repo
+  pkgrepo_humanname: SaltStack repo for Amazon Linux 2
+  pkgrepo: 'https://repo.saltstack.com/{{ py_ver_dir or 'yum' }}/amazon/2/$basearch/{{ salt_release }}'
+  key_url: 'https://repo.saltstack.com/{{ py_ver_dir or 'yum' }}/amazon/2/$basearch/{{ salt_release }}/SALTSTACK-GPG-KEY.pub'
+
 Ubuntu:
-  pkgrepo: 'deb http://repo.saltstack.com/{{ py_ver_dir }}/{{ os_lower }}/{{ osrelease }}/amd64/{{ salt_release }} {{ oscodename }} main'
-  key_url: 'https://repo.saltstack.com/{{ py_ver_dir }}/{{ os_lower }}/{{ osrelease }}/amd64/{{ salt_release }}/SALTSTACK-GPG-KEY.pub'
+  pkgrepo: 'deb http://repo.saltstack.com/{{ py_ver_dir or 'apt' }}/{{ os_lower }}/{{ osrelease }}/amd64/{{ salt_release }} {{ oscodename }} main'
+  key_url: 'https://repo.saltstack.com/{{ py_ver_dir or 'apt' }}/{{ os_lower }}/{{ osrelease }}/amd64/{{ salt_release }}/SALTSTACK-GPG-KEY.pub'
   pygit2: python-pygit2
   gitfs:
     pygit2:
-      install_from_source: False
+      install_from_source: false
       git:
-        require_state: False
+        require_state: false
         install_from_package: Null
 
 Raspbian:
-  pkgrepo: 'deb http://repo.saltstack.com/{{ py_ver_dir }}/{{ os_family_lower }}/{{ osmajorrelease }}/armhf/{{ salt_release }} {{ oscodename }} main'
-  key_url: 'https://repo.saltstack.com/{{ py_ver_dir }}/{{ os_family_lower }}/{{ osmajorrelease }}/armhf/{{ salt_release }}/SALTSTACK-GPG-KEY.pub'
+  pkgrepo: 'deb http://repo.saltstack.com/{{ py_ver_dir or 'apt' }}/{{ os_family_lower }}/{{ osmajorrelease }}/armhf/{{ salt_release }} {{ oscodename }} main'
+  key_url: 'https://repo.saltstack.com/{{ py_ver_dir or 'apt' }}/{{ os_family_lower }}/{{ osmajorrelease }}/armhf/{{ salt_release }}/SALTSTACK-GPG-KEY.pub'
 
 SmartOS:
   salt_master: salt
@@ -43,10 +48,10 @@ SmartOS:
   minion_service: 'salt:minion'
   master_service: 'salt:master'
   api_service: 'salt:api'
-  python_dulwich: 'py27-dulwich'
+  python_dulwich: {{ py_ver_dir or 'py27' }}{{ '-dulwich' }}
   gitfs:
     dulwich:
-      install_from_source: False
+      install_from_source: false
   config_path: /opt/local/etc/salt
   master:
     gitfs_provider: dulwich

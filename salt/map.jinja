@@ -19,8 +19,8 @@
 {% set lookup = salt['pillar.get']('salt:lookup', default={}, merge=True) %}
 {% do salt['defaults.merge'](defaults['salt'], lookup) %}
 
-{## Merge in salt pillar ##}
+{#- Merge in salt pillar #}
 {% set salt_settings = salt['pillar.get']('salt', default=defaults['salt'], merge=True) %}
 
-{## Merge in salt_formulas pillar ##}
+{#- Merge in salt_formulas pillar #}
 {% set formulas_settings = salt['pillar.get']('salt_formulas',default=defaults['salt_formulas'], merge=True) %}
