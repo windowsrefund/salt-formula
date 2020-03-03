@@ -1,5 +1,5 @@
 {%- set tplroot = tpldir.split('/')[0] %}
-{% from "salt/map.jinja" import salt_settings with context %}
+{%- from tplroot ~ "/map.jinja" import salt_settings with context %}
 
 salt-minion-standalone:
   {% if salt_settings.install_packages %}
@@ -17,7 +17,9 @@ salt-minion-standalone:
     - exclude_pat: _*
     - context:
         standalone: True
-  {%- if not salt_settings.minion.master_type %}
+        file_roots: {{ file_roots }}
+        formulas: {{ formulas|json }}
+{%- if salt_settings.minion.master_type is defined and salt_settings.minion.master_type == 'disable' %}
   service.running:
     - enable: True
   {%- else %}
