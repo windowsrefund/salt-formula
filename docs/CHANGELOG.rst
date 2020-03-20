@@ -2,6 +2,25 @@
 Changelog
 =========
 
+`1.3.1 <https://github.com/saltstack-formulas/salt-formula/compare/v1.3.0...v1.3.1>`_ (2020-03-19)
+------------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **jinja:** replace version_cmp with grains lookup (\ `dd37869 <https://github.com/saltstack-formulas/salt-formula/commit/dd37869d2842927a87273b940fd76945ff6a05ec>`_\ )
+* **jinja:** replace version_cmp with grains lookup (\ `325f6c0 <https://github.com/saltstack-formulas/salt-formula/commit/325f6c061beb2721cb55777e206922d728f62e69>`_\ )
+
+`1.3.0 <https://github.com/saltstack-formulas/salt-formula/compare/v1.2.0...v1.3.0>`_ (2020-03-11)
+------------------------------------------------------------------------------------------------------
+
+Features
+^^^^^^^^
+
+
+* **mapping:** better control of the service's state (\ `29ffd68 <https://github.com/saltstack-formulas/salt-formula/commit/29ffd68d3419b61b938221130911844f48134817>`_\ )
+
 `1.2.0 <https://github.com/saltstack-formulas/salt-formula/compare/v1.1.3...v1.2.0>`_ (2020-02-20)
 ------------------------------------------------------------------------------------------------------
 
